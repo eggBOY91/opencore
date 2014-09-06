@@ -7473,7 +7473,7 @@ void Player::ProcessPendingUpdates()
 
 		// compress update packet
 		// while we said 350 before, I'm gonna make it 500 :D
-		if(c < (size_t)sWorld.compression_threshold || !CompressAndSendUpdateBuffer((uint32)c, update_buffer))
+		//if(c < (size_t)sWorld.compression_threshold || !CompressAndSendUpdateBuffer((uint32)c, update_buffer))
 		{
 			// send uncompressed packet -> because we failed
 			m_session->OutPacket(SMSG_UPDATE_OBJECT, (uint16)c, update_buffer);
@@ -7497,7 +7497,7 @@ void Player::ProcessPendingUpdates()
 
 		// compress update packet
 		// while we said 350 before, I'm gonna make it 500 :D
-		if(c < (size_t)sWorld.compression_threshold || !CompressAndSendUpdateBuffer((uint32)c, update_buffer))
+		//if(c < (size_t)sWorld.compression_threshold || !CompressAndSendUpdateBuffer((uint32)c, update_buffer))
 		{
 			// send uncompressed packet -> because we failed
 			m_session->OutPacket(SMSG_UPDATE_OBJECT, (uint16)c, update_buffer);
