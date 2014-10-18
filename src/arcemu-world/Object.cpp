@@ -134,7 +134,6 @@ uint32 Object::BuildCreateUpdateBlockForPlayer(ByteBuffer* data, Player* target)
 		flags = UPDATEFLAG_LIVING;
 		updatetype = 2;
 		break;
-<<<<<<< HEAD
 	}
 
 
@@ -187,60 +186,6 @@ uint32 Object::BuildCreateUpdateBlockForPlayer(ByteBuffer* data, Player* target)
 		updatetype = 2; // UPDATEFLAG_CREATE_OBJECT_SELF
 	}
 
-=======
-	}
-
-
-	/*if(IsGameObject())
-	{
-//		switch( GetByte(GAMEOBJECT_BYTES_1,GAMEOBJECT_BYTES_TYPEID) )
-		switch(m_uint32Values[GAMEOBJECT_BYTES_1])
-		{
-			/*case GAMEOBJECT_TYPE_MO_TRANSPORT:
-				{
-					if(GetTypeFromGUID() != HIGHGUID_TYPE_TRANSPORTER)
-						return 0;   // bad transporter
-					else
-						flags = 0x0352;
-				}
-				break;
-
-			case GAMEOBJECT_TYPE_TRANSPORT: // 1
-				{
-					flags |= 0x0002 | 0x0040 | 0x0200; // UPDATEFLAG_TRANSPORT | UPDATEFLAG_HAS_STATIONARY_POSITION | UPDATEFLAG_ROTATION
-				}
-				break;
-
-			case GAMEOBJECT_TYPE_TRAP:
-			case GAMEOBJECT_TYPE_DUEL_ARBITER:
-			case GAMEOBJECT_TYPE_FLAGSTAND:
-			case GAMEOBJECT_TYPE_FLAGDROP:
-				updatetype = 2; // UPDATETYPE_CREATE_OBJECT2
-				break;
-
-			default:
-				break;
-		}
-		//The above 3 checks FAIL to identify transports, thus their flags remain 0x58, and this is BAAAAAAD! Later they don't get position x,y,z,o updates, so they appear randomly by a client-calculated path, they always face north, etc... By: VLack
-		//if(flags != 0x0352 && IsGameObject() && TO< GameObject* >(this)->GetInfo()->Type == GAMEOBJECT_TYPE_TRANSPORT && !(TO< GameObject* >(this)->GetOverrides() & GAMEOBJECT_OVERRIDE_PARENTROT))
-			//flags = 0x0352;
-	}*/
-
-	 /*if(GetTypeFromGUID() == HIGHGUID_TYPE_VEHICLE)
-        {
-			flags |= UPDATEFLAG_VEHICLE;
-			updatetype = 2; // UPDATETYPE_CREATE_OBJECT_SELF
-	     }*/
-
-	 
-	if(target == this)
-	{
-		// player creating self
-		flags |= UPDATEFLAG_SELF;  // UPDATEFLAG_SELF
-		updatetype = 2; // UPDATEFLAG_CREATE_OBJECT_SELF
-	}
-
->>>>>>> origin/master
 	if(IsUnit())
 	{
 		if(TO_UNIT(this)->GetTargetGUID())
@@ -520,7 +465,6 @@ void Object::_BuildMovementUpdate(ByteBuffer* data, uint16 flags, uint32 flags2,
 		}
 
 	}*/
-<<<<<<< HEAD
 
 		bool hasTransport = transporter_info.guid;
         bool isSplineEnabled = false; // spline not supported
@@ -531,18 +475,6 @@ void Object::_BuildMovementUpdate(ByteBuffer* data, uint16 flags, uint32 flags2,
         bool hasElevation = false; //flags & 0x02000000; // MOVEFLAG_SPLINE_ELEVATION, I think flags(1); 2: spline not supported/enabled
         bool hasOrientation = GetTypeId() != TYPEID_ITEM && GetTypeId() != TYPEID_CONTAINER;
 
-=======
-
-		bool hasTransport = transporter_info.guid;
-        bool isSplineEnabled = false; // spline not supported
-        //bool hasPitch = (flags2 & (0x00100000) || (moveflags2 & 0x0010));
-		bool hasPitch = (flags2 & (MOVEFLAG_SWIMMING | MOVEFLAG_AIR_SWIMMING)) || (moveflags2 & MOVEFLAG2_ALLOW_PITCHING); // (hasPitch == swimming) flags2 & (MOVEFLAG_SWIMMING | MOVEFLAG_AIR_SWIMMING)) || (moveflags2 & MOVEFLAG2_ALLOW_PITCHING)
-        bool haveFallData = flags2 & MOVEFLAG2_INTERPOLATED_TURNING;
-        bool hasFallDirection = flags & MOVEFLAG_FALLING;
-        bool hasElevation = false; //flags & 0x02000000; // MOVEFLAG_SPLINE_ELEVATION, I think flags(1); 2: spline not supported/enabled
-        bool hasOrientation = GetTypeId() != TYPEID_ITEM && GetTypeId() != TYPEID_CONTAINER;
-
->>>>>>> origin/master
 	data->writeBit(0);
     data->writeBit(0);
     data->writeBit(flags & UPDATEFLAG_ROTATION); // UPDATEFLAG_HAS_GO_ROTATION
