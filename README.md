@@ -1,9 +1,8 @@
 arcemu
 ======
 
-ArcEmu Git Project
-
-This is an unofficial ArcEmu branch developed individually by Ijustwantedtosayhi.
+github.com/eggBOY91/Arctic-Core is going to be my new project, working on 5.x arcemu, and then maybe 6.x.
+This project is not going to be updated anymore. Feel free to fork it and continue working on it!
 ======
 
 REMINDERS: (todo)
