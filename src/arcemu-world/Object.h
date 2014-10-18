@@ -26,21 +26,21 @@ class Group;
 
 enum HIGHGUID_TYPE
 {
-    HIGHGUID_TYPE_ITEM           = 0x400,                       // blizz 4000
-    HIGHGUID_TYPE_CONTAINER      = 0x400,                       // blizz 4000
+    HIGHGUID_TYPE_ITEM           = 0x470,                       // blizz 4000
+    HIGHGUID_TYPE_CONTAINER      = 0x470,                       // blizz 4000
     HIGHGUID_TYPE_PLAYER         = 0x000,                       // blizz 0000
     HIGHGUID_TYPE_GAMEOBJECT     = 0xF11,                       // blizz F110
-    HIGHGUID_TYPE_TRANSPORTER      = 0xF12,                       // blizz F120 (for GAMEOBJECT_TYPE_TRANSPORT)
+    HIGHGUID_TYPE_TRANSPORTER    = 0xF12,                       // blizz F120 (for GAMEOBJECT_TYPE_TRANSPORT)
     HIGHGUID_TYPE_UNIT           = 0xF13,                       // blizz F130
     HIGHGUID_TYPE_PET            = 0xF14,                       // blizz F140
     HIGHGUID_TYPE_VEHICLE        = 0xF15,                       // blizz F550
     HIGHGUID_TYPE_DYNAMICOBJECT  = 0xF10,                       // blizz F100
-    HIGHGUID_TYPE_CORPSE         = 0xF101,                      // blizz F100
+    HIGHGUID_TYPE_CORPSE         = 0xF50,                      // blizz F100
     HIGHGUID_TYPE_AREATRIGGER    = 0xF102,                      // blizz F100
     HIGHGUID_TYPE_BATTLEGROUND   = 0x1F1,                       // new 4.x
     HIGHGUID_TYPE_MO_TRANSPORT   = 0x1FC,                       // blizz 1FC0 (for GAMEOBJECT_TYPE_MO_TRANSPORT)
-    HIGHGUID_TYPE_GROUP          = 0x1F5,
-    HIGHGUID_TYPE_GUILD          = 0x1FF,                        // new 4.x
+    HIGHGUID_TYPE_GROUP          = 0x1F5,                        // hmm?
+    HIGHGUID_TYPE_GUILD          = 0x1FF7,                        // new 4.x
 	HIGHGUID_TYPE_WAYPOINT	     = 0x10000000,
 //===============================================
     HIGHGUID_TYPE_MASK				= 0xFFF00000,

@@ -1770,9 +1770,10 @@ Comments: Some comments on the SMSG_MONSTER_MOVE packet:
 
 *************************************************************************************************************/
 
+// packet struct not updated, so i disabled it!!
 void AIInterface::SendMoveToPacket()
 {
-	WorldPacket data(SMSG_MONSTER_MOVE, 100);
+	/*WorldPacket data(SMSG_MONSTER_MOVE, 100);
 
 	data << m_Unit->GetNewGUID();
 	data << uint8(0); //vehicle seat index
@@ -1840,7 +1841,7 @@ void AIInterface::SendMoveToPacket()
 			}
 		}
 	}
-	m_Unit->SendMessageToSet(&data, true);
+	m_Unit->SendMessageToSet(&data, true);*/
 }
 
 bool AIInterface::StopMovement(uint32 time)

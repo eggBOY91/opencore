@@ -20,10 +20,16 @@
 // Class WorldSocket - Main network code functions, handles
 // reading/writing of all packets.
 
+//!!! todo: cleanup in packets, remove useless comments
+
 #include "StdAfx.h"
 #include "AuthCodes.h"
 
-/* echo send/received packets to console */
+/* 
+   uncomment this if you want
+   to log all received/sent packets
+   to console
+*/
 //#define ECHO_PACKET_LOG_TO_CONSOLE 1
 
 #pragma pack(push, 1)
@@ -31,11 +37,6 @@ struct ClientPktHeader
 {
 	uint16 size;
 	uint32 cmd;
-};
-
-struct PacketWithoutOpcode
-{
-uint16 size;
 };
 
 struct ServerPktHeader
@@ -249,19 +250,6 @@ void WorldSocket::OnConnect()
 void WorldSocket::OnConnectTwo()
 {
 	WorldPacket packet(SMSG_AUTH_CHALLENGE, 37);
-
-	/*BigNumber seed1;
-    seed1.SetRand(16 * 8);
-    packet.append(seed1.AsByteArray(), 16);               // new encryption seeds
-
-    BigNumber seed2;
-    seed2.SetRand(16 * 8);
-    packet.append(seed2.AsByteArray(), 16);               // new encryption seeds
-
-    packet << mSeed;
-    packet << uint8(1);
-
-	printf("mSeed: %d", mSeed);*/
 
 	//mangos 4.3.4?
 	// No encryption seeds here?
@@ -572,11 +560,8 @@ void WorldSocket::Authenticate()
 
 	SendPacket(&data);
 
-	// IJWTSH: I should move this, or just get rid of it, it's only used here (currently!)
-#define BUILD_SUPPORT 15595
-
 	WorldPacket cdata(SMSG_CLIENTCACHE_VERSION, 4);
-    cdata << uint32(BUILD_SUPPORT);
+    cdata << uint32(15595);
     SendPacket(&cdata);
 
 	//sAddonMgr.SendAddonInfoPacket(pAuthenticationPacket, static_cast< uint32 >(pAuthenticationPacket->rpos()), mSession);
@@ -590,19 +575,12 @@ void WorldSocket::Authenticate()
 
 	if(mSession->HasGMPermissions())
 		sWorld.gmList.insert(mSession);
-		
-		//printf("Auth done!!\n");
 }
 
 void WorldSocket::UpdateQueuePosition(uint32 Position)
 {
 	//printf("UpdateQueuePosition gets executed!!\n");
 	WorldPacket QueuePacket(SMSG_AUTH_RESPONSE, 21); // 17 + 4 if queued
-	
-	// nope?
-	//QueuePacket.writeBit(0);                                  // has queue
-    //QueuePacket.writeBit(1);                                 // unk queue-related
-    //QueuePacket.writeBit(2);                                  // has account data
 
 	QueuePacket.writeBit(true);                                  // has queue
     QueuePacket.writeBit(false);                                 // unk queue-related
@@ -716,19 +694,6 @@ void WorldSocket::OnRead()
 			readBuffer.Read((uint8*)Packet->contents(), mRemaining);
 		}
 
-		printf("Received opcode: %d\n", mOpcode);
-
-		/*if (mOpcode == 1280462679)
-		{
-			string ClientToServerMsg;
-		WorldPacket ConnPacket(MSG_WOW_CONNECTION);
-        ConnPacket >> ClientToServerMsg;
-
-		printf("Client to server\n");
-
-		OnConnectTwo();
-		}*/
-
 		sWorldLog.LogPacket(mSize, static_cast<uint16>(mOpcode), mSize ? Packet->contents() : NULL, 0, (mSession ? mSession->GetAccountId() : 0));
 		mRemaining = mSize = mOpcode = 0;
 
@@ -744,7 +709,7 @@ void WorldSocket::OnRead()
 			case MSG_WOW_CONNECTION:
 				{
 					//printf("Client to server\n");
-					HandleWoWConnection(Packet);
+					HandleWoWConnection(Packet);      // new 4.x
 				}
 				break;
 			case CMSG_AUTH_SESSION:
@@ -764,9 +729,7 @@ void WorldSocket::OnRead()
 
 void WorldSocket::HandleWoWConnection(WorldPacket* recvPacket)
 {
-	    //printf("Handling WoW Connection...\n");
 		string ClientToServerMsg;
-		//WorldPacket ConnPacket(MSG_WOW_CONNECTION);
         *recvPacket >> ClientToServerMsg;
 
 		// cause we love having a hundred functions

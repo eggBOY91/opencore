@@ -735,6 +735,7 @@ void WorldSession::InitPacketHandlerTable()
 
 	// Account Data
 	WorldPacketHandlers[CMSG_UPDATE_ACCOUNT_DATA].handler = &WorldSession::HandleUpdateAccountData; // should work on 4.3.4
+	WorldPacketHandlers[CMSG_UPDATE_ACCOUNT_DATA].status  = STATUS_AUTHED;
 
 	WorldPacketHandlers[CMSG_REQUEST_ACCOUNT_DATA].handler =
 	    &WorldSession::HandleRequestAccountData;

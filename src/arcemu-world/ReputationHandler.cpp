@@ -107,13 +107,10 @@ ARCEMU_INLINE bool RankChangedFlat(int32 Standing, int32 NewStanding)
 
 void Player::smsg_InitialFactions()
 {
-	uint16 count = 256;
-
-	WorldPacket data(SMSG_INITIALIZE_FACTIONS, 4 + count * 5);
-	data << uint32(count);
-
+	WorldPacket data(SMSG_INITIALIZE_FACTIONS, 764);   //VLack: Aspire has this on 764, it was 644 before.
+	data << uint32(128);
 	FactionReputation* rep;
-	for(uint32 i = 0; i < 128; ++i) // 128 or 256? i think 128
+	for(uint32 i = 0; i < 128; ++i)
 	{
 		rep = reputationByListId[i];
 		if(rep == NULL)

@@ -48,8 +48,8 @@ class SpeedCheatDetector;
 #define PLAYER_HONORLESS_TARGET_SPELL 2479
 #define MONSTER_NORMAL_RUN_SPEED 8.0f
 /* action button defines */
-#define PLAYER_ACTION_BUTTON_COUNT 145 // 136-wotlk; not sure about cata
-#define PLAYER_ACTION_BUTTON_SIZE PLAYER_ACTION_BUTTON_COUNT * sizeof(ActionButton)
+#define PLAYER_ACTION_BUTTON_COUNT 144 // 136-wotlk; not sure about cata
+#define PLAYER_ACTION_BUTTON_SIZE PLAYER_ACTION_BUTTON_COUNT * sizeof(uint32)
 
 #define MAX_SPEC_COUNT 2
 #define GLYPHS_COUNT 9 // 6 in 3.3.5a, isn't it 9 in cata? 

@@ -26,6 +26,7 @@
 //3.0.2 client opcodes
 
 // NOTE: All opcodes commented with 15595 are updated to patch 4.3.4 build 15595 and are implemented
+//!!! ToDo: cleanup, remove old && unused opcodes. It's a mess ;(
 
 enum Opcodes
 {
@@ -110,12 +111,12 @@ enum Opcodes
     CMSG_SERVERTIME                                 = 0x048,	// not used in client
     SMSG_SERVERTIME                                 = 0x049,	/// TODO: implement
 
-    CMSG_PLAYER_LOGOUT                              = 0x0000,	// implemented
-    CMSG_LOGOUT_REQUEST                             = 0x0A25,	// implemented
-    SMSG_LOGOUT_RESPONSE                            = 0x0524,	// implemented
-    SMSG_LOGOUT_COMPLETE                            = 0x2137,	// implemented
-    CMSG_LOGOUT_CANCEL                              = 0x2324,	// implemented
-    SMSG_LOGOUT_CANCEL_ACK                          = 0x6514,	// implemented
+    CMSG_PLAYER_LOGOUT                              = 0x04A,	// not 15595
+    CMSG_LOGOUT_REQUEST                             = 0x0A25,	// 15595
+    SMSG_LOGOUT_RESPONSE                            = 0x0524,	// 15595
+    SMSG_LOGOUT_COMPLETE                            = 0x2137,	// 15595
+    CMSG_LOGOUT_CANCEL                              = 0x04E,	// 15595
+    SMSG_LOGOUT_CANCEL_ACK                          = 0x04F,	// 15595
     CMSG_NAME_QUERY                                 = 0x2224,	// implemented
     SMSG_NAME_QUERY_RESPONSE                        = 0x6E04,	// implemented
     CMSG_PET_NAME_QUERY                             = 0x6F24,	// implemented
@@ -134,22 +135,22 @@ enum Opcodes
     CMSG_QUEST_QUERY                                = 0x0D06,	// implemented
     SMSG_QUEST_QUERY_RESPONSE                       = 0x6936,	// implemented
 
-    CMSG_GAMEOBJECT_QUERY                           = 0x05E,	// implemented
-    SMSG_GAMEOBJECT_QUERY_RESPONSE                  = 0x05F,	// implemented
-    CMSG_CREATURE_QUERY                             = 0x060,	// implemented
-    SMSG_CREATURE_QUERY_RESPONSE                    = 0x061,	// implemented
-    CMSG_WHO                                        = 0x062,	// implemented
-    SMSG_WHO                                        = 0x063,	// implemented
-    CMSG_WHOIS                                      = 0x064,	/// TODO: implement
-    SMSG_WHOIS                                      = 0x065,	/// TODO: implement
+    CMSG_GAMEOBJECT_QUERY                           = 0x4017,	// 15595
+    SMSG_GAMEOBJECT_QUERY_RESPONSE                  = 0x0915,	// 15595
+    CMSG_CREATURE_QUERY                             = 0x2706,	// 15595
+    SMSG_CREATURE_QUERY_RESPONSE                    = 0x6024,	// 15595
+    CMSG_WHO                                        = 0x6C15,	// 15595
+    SMSG_WHO                                        = 0x6907,	// 15595
+    CMSG_WHOIS                                      = 0x6B05,	//!!! IMPLEMENT THIS (opcode 15595)
+    SMSG_WHOIS                                      = 0x6917,	//!!! IMPLEMENT THIS (opcode 15595)
     CMSG_CONTACT_LIST                               = 0x4534,	// 15595 should work
     SMSG_CONTACT_LIST                               = 0x6017,	// 15595 should work
     SMSG_FRIEND_STATUS                              = 0x0717,	// 15595 should work
-    CMSG_ADD_FRIEND                                 = 0x069,	// implemented
-    CMSG_DEL_FRIEND                                 = 0x06A,	// implemented
+    CMSG_ADD_FRIEND                                 = 0x6527,	// 15595
+    CMSG_DEL_FRIEND                                 = 0x6A15,	// 15595
     CMSG_SET_CONTACT_NOTES                          = 0x06B,	// implemented (Commented in WorldSession.cpp, why ?)
-    CMSG_ADD_IGNORE                                 = 0x06C,	// implemented
-    CMSG_DEL_IGNORE                                 = 0x06D,	// implemented
+    CMSG_ADD_IGNORE                                 = 0x4726,	// 15595
+    CMSG_DEL_IGNORE                                 = 0x6D26,	// 15595
     CMSG_GROUP_INVITE                               = 0x06E,	// implemented
     SMSG_GROUP_INVITE                               = 0x06F,	// implemented
     CMSG_GROUP_CANCEL                               = 0x070,	// implemented
@@ -186,7 +187,7 @@ enum Opcodes
     CMSG_GUILD_DISBAND                              = 0x08F,	// implemented
     CMSG_GUILD_LEADER                               = 0x090,	// implemented
     CMSG_GUILD_MOTD                                 = 0x091,	// implemented
-    SMSG_GUILD_EVENT                                = 0x0705,	// 15595
+    SMSG_GUILD_EVENT                                = 0x0705,	// 15595              NOT SURE
     SMSG_GUILD_COMMAND_RESULT                       = 0x093,	// implemented
     UMSG_UPDATE_GUILD                               = 0x094,	// not used in client
     CMSG_MESSAGECHAT                                = 0x095,	// implemented
@@ -217,7 +218,7 @@ enum Opcodes
     SMSG_READ_ITEM_OK                               = 0x0AE,	// implemented
     SMSG_READ_ITEM_FAILED                           = 0x0AF,	// implemented
     SMSG_ITEM_COOLDOWN                              = 0x0B0,	/// TODO: implement
-    CMSG_GAMEOBJ_USE                                = 0x0B1,	// implemented
+    CMSG_GAMEOBJ_USE                                = 0x4E17,	// 15595               !!!! NOT SURE !!!!
     CMSG_DESTROY_ITEMS                              = 0x0B2,	// GM client only
     SMSG_GAMEOBJECT_CUSTOM_ANIM                     = 0x0B3,	// implemented
     CMSG_AREATRIGGER                                = 0x0B4,	// implemented
@@ -290,18 +291,18 @@ enum Opcodes
     MSG_MOVE_HOVER                                  = 0x0F7,	/// TODO: investigate, implement
     CMSG_TRIGGER_CINEMATIC_CHEAT                    = 0x0F8,	// GM client only
     CMSG_OPENING_CINEMATIC                          = 0x0F9,	/// TODO: implement
-    SMSG_TRIGGER_CINEMATIC                          = 0x0FA,	// implemented
+    SMSG_TRIGGER_CINEMATIC                          = 0x6C27,	// 15595
     CMSG_NEXT_CINEMATIC_CAMERA                      = 0x0FB,	/// TODO: implement
     CMSG_COMPLETE_CINEMATIC                         = 0x0FC,	// implemented
-    SMSG_TUTORIAL_FLAGS                             = 0x0B35,	// 15595 -- did not check it!!
-    CMSG_TUTORIAL_FLAG                              = 0x0FE,	// implemented
-    CMSG_TUTORIAL_CLEAR                             = 0x0FF,	// implemented
-    CMSG_TUTORIAL_RESET                             = 0x100,	// implemented
+    SMSG_TUTORIAL_FLAGS                             = 0x0B35,	// 15595 -- did not check them vvvv
+    CMSG_TUTORIAL_FLAG                              = 0x6C26,	// 15595
+    CMSG_TUTORIAL_CLEAR                             = 0x6515,	// 15595
+    CMSG_TUTORIAL_RESET                             = 0x2726,	// 15595
     CMSG_STANDSTATECHANGE                           = 0x101,	// implemented
-    CMSG_EMOTE                                      = 0x102,	// implemented
-    SMSG_EMOTE                                      = 0x103,	// implemented
-    CMSG_TEXT_EMOTE                                 = 0x104,	// implemented
-    SMSG_TEXT_EMOTE                                 = 0x105,	// implemented
+    CMSG_EMOTE                                      = 0x4C26,	// 15595 NOT CHECKED THESE vvvv
+    SMSG_EMOTE                                      = 0x0A34,	// 15595
+    CMSG_TEXT_EMOTE                                 = 0x2E24,	// 15595
+    SMSG_TEXT_EMOTE                                 = 0x0B05,	// 15595
     CMSG_AUTOEQUIP_GROUND_ITEM                      = 0x106,	// not used in client
     CMSG_AUTOSTORE_GROUND_ITEM                      = 0x107,	/// TODO: implement
     CMSG_AUTOSTORE_LOOT_ITEM                        = 0x108,	// implemented
@@ -335,18 +336,18 @@ enum Opcodes
     SMSG_SET_FACTION_STANDING                       = 0x124,	// implemented
     CMSG_SET_FACTION_ATWAR                          = 0x125,	// implemented
     CMSG_SET_FACTION_CHEAT                          = 0x126,	// not used in client
-    SMSG_SET_PROFICIENCY                            = 0x127,	// implemented
+    SMSG_SET_PROFICIENCY                            = 0x6207,	// 15595               NOT SURE
     CMSG_SET_ACTION_BUTTON                          = 0x128,	// implemented
-    SMSG_ACTION_BUTTONS                             = 0x38B5,	// 15595                // not sure if ok
-    SMSG_INITIAL_SPELLS                             = 0x0104,	// 15595                NOT UPDATED
-    SMSG_LEARNED_SPELL                              = 0x12B,	// implemented
+    SMSG_ACTION_BUTTONS                             = 0x38B5,	// 15595
+    SMSG_INITIAL_SPELLS                             = 0x0104,	// 15595
+    SMSG_LEARNED_SPELL                              = 0x58A2,	// 15595                NOT SURE (SHOULD WORK)
     SMSG_SUPERCEDED_SPELL                           = 0x12C,	// implemented
     CMSG_NEW_SPELL_SLOT                             = 0x12D,	// not used in client
     CMSG_CAST_SPELL                                 = 0x12E,	// implemented
     CMSG_CANCEL_CAST                                = 0x12F,	// implemented
     SMSG_CAST_FAILED                                = 0x130,	// implemented
-    SMSG_SPELL_START                                = 0x131,	// implemented
-    SMSG_SPELL_GO                                   = 0x132,	// implemented
+    SMSG_SPELL_START                                = 0x6415,	// 15595 not updated
+    SMSG_SPELL_GO                                   = 0x6E16,	// 15595 not updated
     SMSG_SPELL_FAILURE                              = 0x133,	// implemented
     SMSG_SPELL_COOLDOWN                             = 0x134,	// implemented
     SMSG_COOLDOWN_EVENT                             = 0x135,	// implemented
@@ -357,7 +358,7 @@ enum Opcodes
     MSG_CHANNEL_UPDATE                              = 0x13A,	// implemented
     CMSG_CANCEL_CHANNELLING                         = 0x13B,	// implemented
     SMSG_AI_REACTION                                = 0x13C,	// implemented
-    CMSG_SET_SELECTION                              = 0x13D,	// implemented
+    CMSG_SET_SELECTION                              = 0x0506,	// 15595
     CMSG_EQUIPMENT_SET_DELETE                       = 0x13E,	// not used in client
     CMSG_UNUSED                                     = 0x13F,	// not used in client
     CMSG_UNUSED2                                    = 0x140,	// not used in client
@@ -500,9 +501,9 @@ enum Opcodes
     SMSG_FISH_ESCAPED                               = 0x1C9,	// implemented
     CMSG_BUG                                        = 0x1CA,	// implemented
     SMSG_NOTIFICATION                               = 0x1CB,	// implemented
-    CMSG_PLAYED_TIME                                = 0x1CC,	// implemented
-    SMSG_PLAYED_TIME                                = 0x1CD,	// implemented
-    CMSG_QUERY_TIME                                 = 0x1CE,	// implemented
+    CMSG_PLAYED_TIME                                = 0x0804,	// 15595
+    SMSG_PLAYED_TIME                                = 0x6037,	// 15595
+    CMSG_QUERY_TIME                                 = 0x0A36,	// 15595
     SMSG_QUERY_TIME_RESPONSE                        = 0x1CF,	// implemented
     SMSG_LOG_XPGAIN                                 = 0x1D0,	// implemented
     SMSG_AURACASTLOG_OBSOLETE                       = 0x1D1,	// OBSOLETE
@@ -530,7 +531,7 @@ enum Opcodes
     SMSG_INVALID_PROMOTION_CODE                     = 0x1E7,	/// TODO: implement
     MSG_GM_BIND_OTHER                               = 0x1E8,	// GM client only
     MSG_GM_SUMMON                                   = 0x1E9,	// GM client only
-    SMSG_ITEM_TIME_UPDATE                           = 0x1EA,	/// TODO: implement
+    SMSG_ITEM_TIME_UPDATE                           = 0x2407,	// 15595
     SMSG_ITEM_ENCHANT_TIME_UPDATE                   = 0x1EB,	// implemented
     SMSG_AUTH_CHALLENGE                             = 0x4542,	// 15595
     CMSG_AUTH_SESSION                               = 0x0449,	// 15595
@@ -540,7 +541,7 @@ enum Opcodes
     MSG_SAVE_GUILD_EMBLEM                           = 0x1F1,	// implemented
     MSG_TABARDVENDOR_ACTIVATE                       = 0x1F2,	// implemented
     SMSG_PLAY_SPELL_VISUAL                          = 0x10B1,	// 15595
-    CMSG_ZONEUPDATE                                 = 0x1F4,	// implemented
+    CMSG_ZONEUPDATE                                 = 0x4F37,	// 15595
     SMSG_PARTYKILLLOG                               = 0x1F5,	// implemented
     SMSG_COMPRESSED_UPDATE_OBJECT                   = 0x000,	// gone in 4.3.4 it's SMSG_UPDATE_OBJECT with compression flag (SMSG_UPDATE_OBJECT | 0x8000)
     SMSG_PLAY_SPELL_IMPACT                          = 0x1F7,	// implemented
@@ -564,7 +565,7 @@ enum Opcodes
     SMSG_ACCOUNT_DATA_TIMES                         = 0x4B05,	// 15595
     CMSG_REQUEST_ACCOUNT_DATA                       = 0x20A,	// implemented
     CMSG_UPDATE_ACCOUNT_DATA                        = 0x4736,	// 15595
-    SMSG_UPDATE_ACCOUNT_DATA                        = 0x6837,	// implemented
+    SMSG_UPDATE_ACCOUNT_DATA                        = 0x6837,	// 15595
     SMSG_CLEAR_FAR_SIGHT_IMMEDIATE                  = 0x20D,	/// TODO: implement
     SMSG_POWERGAINLOG_OBSOLETE                      = 0x20E,	// not used in client
     CMSG_GM_TEACH                                   = 0x20F,	// GM client only
@@ -709,7 +710,7 @@ enum Opcodes
     CMSG_GMTICKETSYSTEM_TOGGLE                      = 0x29A,	// implemented
     CMSG_CANCEL_GROWTH_AURA                         = 0x29B,	/// TODO: implement
     SMSG_CANCEL_AUTO_REPEAT                         = 0x29C,	// implemented
-    SMSG_STANDSTATE_UPDATE                          = 0x29D,	// implemented
+    SMSG_STANDSTATE_UPDATE                          = 0x6F04,	// 15595              !!!! NOT SURE !!!!
     SMSG_LOOT_ALL_PASSED                            = 0x29E,	// implemented
     SMSG_LOOT_ROLL_WON                              = 0x29F,	// implemented
     CMSG_LOOT_ROLL                                  = 0x2A0,	// implemented
@@ -759,7 +760,7 @@ enum Opcodes
     SMSG_RAID_INSTANCE_INFO                         = 0x2CC,	// implemented
     CMSG_REQUEST_RAID_INFO                          = 0x2CD,	// implemented
     CMSG_MOVE_TIME_SKIPPED                          = 0x2CE,	// implemented
-    CMSG_MOVE_FEATHER_FALL_ACK                      = 0x2CF,	// implemented	// implemented
+    CMSG_MOVE_FEATHER_FALL_ACK                      = 0x2CF,	// implemented
     CMSG_MOVE_WATER_WALK_ACK                        = 0x2D0,	// implemented
     CMSG_MOVE_NOT_ACTIVE_MOVER                      = 0x2D1,	// implemented
     SMSG_PLAY_SOUND                                 = 0x2D2,	// implemented
@@ -796,7 +797,7 @@ enum Opcodes
     SMSG_PET_UNLEARN_CONFIRM                        = 0x2F1,	// implemented
     SMSG_PARTY_MEMBER_STATS_FULL                    = 0x2F2,	// implemented
     CMSG_PET_SPELL_AUTOCAST                         = 0x2F3,	// implemented
-    SMSG_WEATHER                                    = 0x2F4,	// implemented
+    SMSG_WEATHER                                    = 0x2904,	// 15595       NOT UPDATED!!!!
     SMSG_PLAY_TIME_WARNING                          = 0x2F5,	/// TODO: implement (exist only in china).
     SMSG_MINIGAME_SETUP                             = 0x2F6,	/// TODO: implement
     SMSG_MINIGAME_STATE                             = 0x2F7,	/// TODO: implement
@@ -849,9 +850,9 @@ enum Opcodes
     SMSG_GHOSTEE_GONE                               = 0x326,	// GM client only or not implemented
     CMSG_GM_UPDATE_TICKET_STATUS                    = 0x327,	// GM client only or not implemented
     SMSG_GM_TICKET_STATUS_UPDATE                    = 0x328,	// implemented
-    MSG_SET_DUNGEON_DIFFICULTY                      = 0x329,	// implemented
+    MSG_SET_DUNGEON_DIFFICULTY                      = 0x4925,	// 15595
     CMSG_GMSURVEY_SUBMIT                            = 0x32A,	// implemented
-    SMSG_UPDATE_INSTANCE_OWNERSHIP                  = 0x32B,	// implemented
+    SMSG_UPDATE_INSTANCE_OWNERSHIP                  = 0x4915,	// 15595
     CMSG_IGNORE_KNOCKBACK_CHEAT                     = 0x32C,	// GM client only
     SMSG_CHAT_PLAYER_AMBIGUOUS                      = 0x32D,	// not used in client
     MSG_DELAY_GHOST_TELEPORT                        = 0x32E,	// GM client only
@@ -953,7 +954,7 @@ enum Opcodes
     MSG_PARTY_ASSIGNMENT                            = 0x38E,	// implemented
     SMSG_OFFER_PETITION_ERROR                       = 0x38F,	/// TODO: implement
     SMSG_TIME_SYNC_REQ                              = 0x3CA4,	// 15595
-    CMSG_TIME_SYNC_RESP                             = 0x391,	/// TODO: investigate, implement
+    CMSG_TIME_SYNC_RESP                             = 0x3B0C,	/// 15595
     CMSG_SEND_LOCAL_EVENT                           = 0x392,	// GM client only
     CMSG_SEND_GENERAL_TRIGGER                       = 0x393,	// GM client only
     CMSG_SEND_COMBAT_TRIGGER                        = 0x394,	// GM client only
@@ -1071,7 +1072,7 @@ enum Opcodes
     SMSG_SPELL_CHANCE_RESIST_PUSHBACK               = 0x404,	// not used in client
     CMSG_IGNORE_DIMINISHING_RETURNS_CHEAT           = 0x405,	// GM client only
     SMSG_IGNORE_DIMINISHING_RETURNS_CHEAT           = 0x406,	// GM client only
-    CMSG_KEEP_ALIVE                                 = 0x407,	/// TODO: implement
+    CMSG_KEEP_ALIVE                                 = 0x0015,	/// 15595 not handled?
     SMSG_RAID_READY_CHECK_ERROR                     = 0x408,	/// TODO: implement
     CMSG_OPT_OUT_OF_LOOT                            = 0x409,	// implemented
     MSG_QUERY_GUILD_BANK_TEXT                       = 0x40A,	// implemented
@@ -1193,7 +1194,7 @@ enum Opcodes
     CMSG_FORCE_SAY_CHEAT                            = 0x47E,	// GM client only
     SMSG_HEALTH_UPDATE                              = 0x47F,	/// TODO: implement..
     SMSG_POWER_UPDATE                               = 0x480,	// implemented
-    CMSG_GAMEOBJ_REPORT_USE                         = 0x481,	// implemented
+    CMSG_GAMEOBJ_REPORT_USE                         = 0x4827,	// 15595                !!!! NOT SURE !!!!
     SMSG_HIGHEST_THREAT_UPDATE                      = 0x482,	/// TODO: implement
     SMSG_THREAT_UPDATE                              = 0x483,	/// TODO: implement
     SMSG_THREAT_REMOVE                              = 0x484,	/// TODO: implement
@@ -1252,7 +1253,7 @@ enum Opcodes
     UMSG_UNKNOWN_1209                               = 0x4B9,	/// TODO: investigate
     CMSG_UNKNOWN_1210                               = 0x4BA,	/// TODO: investigate, CMSG, uint64, lua: CalendarContextEventSignUp
     SMSG_UNKNOWN_1211                               = 0x4BB,	/// TODO: investigate, SMSG, calendar related
-    SMSG_EQUIPMENT_SET_LIST                         = 0x4BC,	/// TODO: investigate, SMSG, equipment manager list?
+    SMSG_EQUIPMENT_SET_LIST                         = 0x2E04,	/// 15595 not updated
     CMSG_EQUIPMENT_SET_SAVE                         = 0x4BD,	/// TODO: investigate, CMSG, lua: SaveEquipmentSet
     CMSG_UNKNOWN_1214                               = 0x4BE,	/// TODO: investigate, CMSG, missle?
     SMSG_UNKNOWN_1215                               = 0x4BF,	// TODO: investigate,/ SMSG, uint64, uint8, 3 x float
@@ -1271,7 +1272,7 @@ enum Opcodes
     SMSG_UNKNOWN_1228								= 0x4CC,	//
     CMSG_EQUIPMENT_SET_USE							= 0x4D5,	// implemented
     SMSG_EQUIPMENT_SET_USE_RESULT					= 0x4D6,	// implemented
-    MSG_SET_RAID_DIFFICULTY                         = 0x4EB,	// implemented
+    MSG_SET_RAID_DIFFICULTY                         = 0x0614,	// 15595
     CMSG_WORLD_STATE_UI_TIMER_UPDATE                = 0x4F6,	// implemented
     SMSG_WORLD_STATE_UI_TIMER_UPDATE                = 0x4F7,	// implemented
     NUM_MSG_TYPES                                   = 0xFFFF,	// max msg number
@@ -1283,6 +1284,8 @@ enum Opcodes
 	CMSG_VIOLENCE_LEVEL                             = 0x7816,    // not implemented
 	CMSG_LOG_DISCONNECT                             = 0x446D,    // not implemented
 	CMSG_LOAD_SCREEN                                = 0x2422,    // what do we do with this
+	CMSG_UI_TIME_REQUEST                            = 0x4605,    // implemented
+	SMSG_UI_TIME                                    = 0x4A14,    // implemented
 };
 
 enum FriendsResult

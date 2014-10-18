@@ -1988,7 +1988,7 @@ void Spell::SendSpellStart()
 	if(GetProto()->Id == 8326)   // death
 		cast_flags = 0x0F;
 
-	data.SetOpcode(SMSG_SPELL_START);
+	/*data.SetOpcode(SMSG_SPELL_START);
 	if(i_caster != NULL)
 		data << i_caster->GetNewGUID() << u_caster->GetNewGUID();
 	else
@@ -2016,7 +2016,7 @@ void Spell::SendSpellStart()
 					p_caster->GetItemInterface()->RemoveItemAmt(it->GetEntry(),1);
 					(Supalosa: Instead of removing one from the stack, remove one from durability)
 					We don't need to check if the durability is 0, because you can't cast the Throw spell if the thrown weapon is broken, because it returns "Requires Throwing Weapon" or something.
-					*/
+					
 
 					// burlex - added a check here anyway (wpe suckers :P)
 					if(itm->GetDurability() > 0)
@@ -2031,7 +2031,7 @@ void Spell::SendSpellStart()
 	}
 
 	data << (uint32)139; //3.0.2 seems to be some small value around 250 for shadow bolt.
-	m_caster->SendMessageToSet(&data, true);
+	m_caster->SendMessageToSet(&data, true);*/
 }
 
 void Spell::SendSpellGo()
@@ -2069,7 +2069,7 @@ void Spell::SendSpellGo()
 
 	// Start Spell
 	WorldPacket data(200);
-	data.SetOpcode(SMSG_SPELL_GO);
+	/*data.SetOpcode(SMSG_SPELL_GO);
 	uint32 flags = 0;
 
 	if( m_missileTravelTime != 0 )
@@ -2170,7 +2170,7 @@ void Spell::SendSpellGo()
 		float dy = targets.m_destY - targets.m_srcY;
 		if (missilepitch != M_PI / 4 && missilepitch != -M_PI / 4) //lets not divide by 0 lul
 			traveltime = (sqrtf(dx * dx + dy * dy) / (cosf(missilepitch) * missilespeed)) * 1000;
-*/
+
 
 	if( flags & 0x20000 ){
 		data << float( m_missilePitch );
@@ -2181,7 +2181,7 @@ void Spell::SendSpellGo()
 	if(m_targets.m_targetMask & TARGET_FLAG_DEST_LOCATION)
 		data << uint8(0);   //some spells require this ? not sure if it is last byte or before that.
 
-	m_caster->SendMessageToSet(&data, true);
+	m_caster->SendMessageToSet(&data, true);*/
 
 	// spell log execute is still send 2.08
 	// as I see with this combination, need to test it more

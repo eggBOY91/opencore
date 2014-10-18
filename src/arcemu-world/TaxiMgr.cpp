@@ -220,7 +220,8 @@ void TaxiPath::SendMoveForTime(Player* riding, Player* to, uint32 time)
 	if(itr == m_pathNodes.end())
 		return;
 
-	WorldPacket* data = new WorldPacket(SMSG_MONSTER_MOVE, 2000);
+	// DISABLED - NOT UPDATED
+	/*WorldPacket* data = new WorldPacket(SMSG_MONSTER_MOVE, 2000);
 	size_t pos;
 
 	*data << riding->GetNewGUID();

@@ -5497,8 +5497,9 @@ int32 Unit::getDetectRangeMod(uint64 guid)
 	return 0;
 }
 
-void Unit::SetStandState(uint8 standstate)
+void Unit::SetStandState(uint8 standstate) //!!! 15595 should work
 {
+	printf("received setStandState\n");
 	//only take actions if standstate did change.
 	StandState bef = GetStandState();
 	if(bef == standstate)
@@ -5509,6 +5510,7 @@ void Unit::SetStandState(uint8 standstate)
 		RemoveAurasByInterruptFlag(AURA_INTERRUPT_ON_STAND_UP);
 
 	if(IsPlayer())
+		printf("Standstate succeeded\n");
 		TO< Player* >(this)->GetSession()->OutPacket(SMSG_STANDSTATE_UPDATE, 1, &standstate);
 }
 
@@ -6134,8 +6136,9 @@ bool Unit::IsPoisoned()
 
 void Unit::SendFullAuraUpdate()
 {
+	// not updated packet struct && opcode - DISABLED
 
-	WorldPacket data(SMSG_AURA_UPDATE_ALL, 200);
+	/*WorldPacket data(SMSG_AURA_UPDATE_ALL, 200);
 
 	data << WoWGuid(GetNewGUID());
 
@@ -6179,7 +6182,7 @@ void Unit::SendFullAuraUpdate()
 	}
 	SendMessageToSet(&data, true);
 
-	LOG_DEBUG("Full Aura Update: GUID: " I64FMT " - Updates: %u", GetGUID(), Updates);
+	LOG_DEBUG("Full Aura Update: GUID: " I64FMT " - Updates: %u", GetGUID(), Updates);*/
 }
 
 void Unit::SendAuraUpdate(uint32 AuraSlot, bool remove)
@@ -7685,9 +7688,10 @@ void Unit::SetPower(uint32 type, int32 value)
 	SetUInt32Value(UNIT_FIELD_POWER1 + type, value);
 }
 
+// DISABLED - NOT UPDATED
 void Unit::SendPowerUpdate(bool self)
 {
-	uint32 amount = GetUInt32Value(UNIT_FIELD_POWER1 + GetPowerType()); //save the amount, so we send the same to the player and everyone else
+	/*uint32 amount = GetUInt32Value(UNIT_FIELD_POWER1 + GetPowerType()); //save the amount, so we send the same to the player and everyone else
 
 	WorldPacket data(SMSG_POWER_UPDATE, 14);
 	FastGUIDPack(data, GetGUID());
@@ -7701,18 +7705,19 @@ void Unit::SendPowerUpdate(bool self)
 	//VLack: On 3.1.3, create and send a field update packet to everyone else, as this is the only way to update their GUI with the power values.
 	WorldPacket* pkt = BuildFieldUpdatePacket(UNIT_FIELD_POWER1 + GetPowerType(), amount);
 	SendMessageToSet(pkt, false);
-	delete pkt;
+	delete pkt;*/
 }
 
+// DISABLED - NOT UPDATED
 void Unit::UpdatePowerAmm()
 {
-	if(!IsPlayer())
+	/*if(!IsPlayer())
 		return;
 	WorldPacket data(SMSG_POWER_UPDATE, 14);
 	FastGUIDPack(data, GetGUID());
 	data << uint8(GetPowerType());
 	data << GetUInt32Value(UNIT_FIELD_POWER1 + GetPowerType());
-	SendMessageToSet(&data, true);
+	SendMessageToSet(&data, true);*/
 }
 
 void Unit::SetDualWield(bool enabled)
@@ -8263,7 +8268,7 @@ void Unit::SendHopOnVehicle( Unit *vehicleowner, uint32 seat ){
 }
 
 void Unit::SendHopOffVehicle( Unit *vehicleowner, LocationVector &landposition ){
-	WorldPacket data(SMSG_MONSTER_MOVE, 1+12+4+1+4+4+4+12+8 );
+	/*WorldPacket data(SMSG_MONSTER_MOVE, 1+12+4+1+4+4+4+12+8 );
 	data << GetNewGUID();
 
 	if( IsPlayer() )
@@ -8275,16 +8280,16 @@ void Unit::SendHopOffVehicle( Unit *vehicleowner, LocationVector &landposition )
 	data << float( GetPositionY() );
 	data << float( GetPositionZ() );
 	data << uint32( getMSTime() );
-	data << uint8( 4 /* SPLINETYPE_FACING_ANGLE */ );
+	data << uint8( 4 ); // SPLINETYPE_FACING_ANGLE
 	data << float( GetOrientation() );                        // guess
-	data << uint32( 0x01000000 /* SPLINEFLAG_EXIT_VEHICLE */ );
+	data << uint32( 0x01000000 ); // SPLINEFLAG_EXIT_VEHICLE
 	data << uint32( 0 );                                      // Time in between points
 	data << uint32( 1 );                                      // 1 single waypoint
 	data << float( vehicleowner->GetPositionX() );
 	data << float( vehicleowner->GetPositionY() );
 	data << float( vehicleowner->GetPositionZ() );
 
-    SendMessageToSet(&data, true);
+    SendMessageToSet(&data, true);*/
 }
 
 

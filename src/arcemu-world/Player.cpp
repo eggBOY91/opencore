@@ -1635,7 +1635,7 @@ void Player::smsg_InitialSpells()
 		}
 
 		data << uint32(itr2->first);						// spell id
-		data << uint16(itr2->second.ItemId);				// item id
+		data << uint32(itr2->second.ItemId);				// item id (was uint16 in wotlk)
 		data << uint16(0);								// spell category
 		data << uint32(itr2->second.ExpireTime - mstime);	// cooldown remaining in ms (for spell)
 		data << uint32(0);								// cooldown remaining in ms (for category)
@@ -2050,7 +2050,7 @@ void Player::addSpell(uint32 spell_id)
 	{
 		WorldPacket data(SMSG_LEARNED_SPELL, 6);
 		data << uint32(spell_id);
-		data << uint16(0);
+		data << uint32(0);
 		m_session->SendPacket(&data);
 	}
 
@@ -4925,7 +4925,7 @@ void Player::CleanupChannels()
 
 void Player::SendInitialActions()
 {
-	WorldPacket data(SMSG_ACTION_BUTTONS, PLAYER_ACTION_BUTTON_SIZE + 1);
+	WorldPacket data(SMSG_ACTION_BUTTONS, (PLAYER_ACTION_BUTTON_COUNT * 4) + 1);
 
 	//data << uint8(0);         // VLack: 3.1, some bool - 0 or 1. seems to work both ways
 
@@ -4936,7 +4936,7 @@ void Player::SendInitialActions()
 		data << m_specs[m_talentActiveSpec].mActions[i].Misc; //VLack: on 3.1.3, despite the format of CMSG_SET_ACTION_BUTTON, here Type have to be sent before Misc
 	}
 
-	data << uint8(1); // state? can be 0, 1, 2
+	data << uint8(0); // state? can be 0, 1, 2
 
 	m_session->SendPacket(&data);
 }
@@ -6766,7 +6766,9 @@ void Player::TaxiStart(TaxiPath* path, uint32 modelid, uint32 start_node)
 	if(start_node > endn || (endn - start_node) > 200)
 		return;
 
-	WorldPacket data(SMSG_MONSTER_MOVE, 38 + ((endn - start_node) * 12));
+	// packet structure not updated - disabled
+
+	/*WorldPacket data(SMSG_MONSTER_MOVE, 38 + ((endn - start_node) * 12));
 	data << GetNewGUID();
 	data << uint8(0); //VLack: it seems we have a 1 byte stuff after the new GUID
 	data << firstNode->x << firstNode->y << firstNode->z;
@@ -6795,7 +6797,7 @@ void Player::TaxiStart(TaxiPath* path, uint32 modelid, uint32 start_node)
 		data << pn->x << pn->y << pn->z;
 	}
 
-	SendMessageToSet(&data, true);
+	SendMessageToSet(&data, true);*/
 
 	sEventMgr.AddEvent(this, &Player::EventTaxiInterpolate,
 	                   EVENT_PLAYER_TAXI_INTERPOLATE, 900, 0, EVENT_FLAG_DO_NOT_EXECUTE_IN_WORLD_CONTEXT);
@@ -7429,6 +7431,7 @@ void Player::PushCreationData(ByteBuffer* data, uint32 updatecount)
 
 }
 
+// C9: disabled compression, otherwise it wouldn't work
 void Player::ProcessPendingUpdates()
 {
 	_bufferS.Acquire();
@@ -7445,6 +7448,10 @@ void Player::ProcessPendingUpdates()
 	//build out of range updates if creation updates are queued
 	if(bCreationBuffer.size() || mOutOfRangeIdCount)
 	{
+		//get map id
+	    *(uint16*)&update_buffer[c] = (uint16)GetMapId();
+        c += 2;
+
 		*(uint32*)&update_buffer[c] = ((mOutOfRangeIds.size() > 0) ? (mCreationCount + 1) : mCreationCount);
 		c += 4;
 
@@ -7473,7 +7480,7 @@ void Player::ProcessPendingUpdates()
 
 		// compress update packet
 		// while we said 350 before, I'm gonna make it 500 :D
-		if(c < (size_t)sWorld.compression_threshold || !CompressAndSendUpdateBuffer((uint32)c, update_buffer))
+		//if(c < (size_t)sWorld.compression_threshold || !CompressAndSendUpdateBuffer((uint32)c, update_buffer))
 		{
 			// send uncompressed packet -> because we failed
 			m_session->OutPacket(SMSG_UPDATE_OBJECT, (uint16)c, update_buffer);
@@ -7483,6 +7490,10 @@ void Player::ProcessPendingUpdates()
 	if(bUpdateBuffer.size())
 	{
 		c = 0;
+
+		//get map id
+	    *(uint16*)&update_buffer[c] = (uint16)GetMapId();
+        c += 2;
 
 		*(uint32*)&update_buffer[c] = ((mOutOfRangeIds.size() > 0) ? (mUpdateCount + 1) : mUpdateCount);
 		c += 4;
@@ -7497,7 +7508,7 @@ void Player::ProcessPendingUpdates()
 
 		// compress update packet
 		// while we said 350 before, I'm gonna make it 500 :D
-		if(c < (size_t)sWorld.compression_threshold || !CompressAndSendUpdateBuffer((uint32)c, update_buffer))
+		//if(c < (size_t)sWorld.compression_threshold || !CompressAndSendUpdateBuffer((uint32)c, update_buffer))
 		{
 			// send uncompressed packet -> because we failed
 			m_session->OutPacket(SMSG_UPDATE_OBJECT, (uint16)c, update_buffer);
@@ -7585,7 +7596,7 @@ bool Player::CompressAndSendUpdateBuffer(uint32 size, const uint8* update_buffer
 	*(uint32*)&buffer[0] = size;
 
 	// send it
-	m_session->OutPacket(SMSG_UPDATE_OBJECT | 0x8000, (uint16)stream.total_out + 4, buffer); // we do not have SMSG_COMPRESSED_UPDATE_OBJECT in 4.3.4, so we use the compress flag | 0x8000 on the uncompressed opcode
+	m_session->OutPacket(SMSG_UPDATE_OBJECT /*| 0x8000*/, (uint16)stream.total_out + 4, buffer); // 0x8000 - compression flag
 
 	// cleanup memory
 	delete [] buffer;
@@ -8359,11 +8370,13 @@ float Player::CalcRating(uint32 index)
 
 bool Player::SafeTeleport(uint32 MapID, uint32 InstanceID, float X, float Y, float Z, float O)
 {
+	printf("Safe teleport 1\n");
 	return SafeTeleport(MapID, InstanceID, LocationVector(X, Y, Z, O));
 }
 
 bool Player::SafeTeleport(uint32 MapID, uint32 InstanceID, const LocationVector & vec)
 {
+	printf("Same teleport 2\n");
 	// Checking if we have a unit whose waypoints are shown
 	// If there is such, then we "unlink" it
 	// Failing to do so leads to a crash if we try to show some other Unit's wps, after the map was shut down
@@ -10094,9 +10107,12 @@ void Player::_AddSkillLine(uint32 SkillLine, uint32 Curr_sk, uint32 Max_sk)
 #endif
 }
 
+//!!! todo: update skill fields, so we can get skill_langs to work !!!
 void Player::_UpdateSkillFields()
 {
-	uint32 f = PLAYER_SKILL_RANK_0; //todo: implement this and maxrank
+	uint32 f = PLAYER_SKILL_RANK_0;     // field
+	uint32 m = PLAYER_SKILL_MAX_RANK_0; // maximum (not used currently)
+	
 	/* Set the valid skills */
 	for(SkillMap::iterator itr = m_skills.begin(); itr != m_skills.end();)
 	{
@@ -10111,6 +10127,13 @@ void Player::_UpdateSkillFields()
 		if(itr->second.Skill->type == SKILL_TYPE_PROFESSION)
 		{
 			SetUInt32Value(f++, itr->first | 0x10000);
+#ifdef ENABLE_ACHIEVEMENTS
+			m_achievementMgr.UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_REACH_SKILL_LEVEL, itr->second.Skill->id, itr->second.CurrentValue, 0);
+#endif
+		}
+		else if(itr->second.Skill->type == SKILL_TYPE_SECONDARY)
+		{
+			SetUInt32Value(f++, itr->first | 0x40000);
 #ifdef ENABLE_ACHIEVEMENTS
 			m_achievementMgr.UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_REACH_SKILL_LEVEL, itr->second.Skill->id, itr->second.CurrentValue, 0);
 #endif
@@ -11237,6 +11260,7 @@ void Player::Social_AddFriend(const char* name, const char* note)
 	}
 	else
 	{
+		printf("ADDED FRIEND %s\n", name);
 		data << uint8(FRIEND_ADDED_OFFLINE);
 		data << uint64(info->guid);
 	}

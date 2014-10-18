@@ -4171,22 +4171,22 @@ class LuaUnit
 			int kills = luaL_checkint(L, 1);
 			const char* check = luaL_checklstring(L, 2, NULL);
 			Player* plr = TO_PLAYER(ptr);
-			int killscheck = plr->GetUInt32Value(PLAYER_FIELD_LIFETIME_HONORABLE_KILLS);
+			int killscheck = plr->GetUInt32Value(PLAYER_FIELD_LIFETIME_HONORBALE_KILLS);
 			if(check && strncmp(check, "add", 4) == 0 && kills > 0)
 			{
-				plr->SetUInt32Value(PLAYER_FIELD_LIFETIME_HONORABLE_KILLS, killscheck + kills);
+				plr->SetUInt32Value(PLAYER_FIELD_LIFETIME_HONORBALE_KILLS, killscheck + kills);
 				plr->SaveToDB(false);
 				return 0;
 			}
 			else if(check && strncmp(check, "del", 4) == 0 && killscheck >= kills)
 			{
-				plr->SetUInt32Value(PLAYER_FIELD_LIFETIME_HONORABLE_KILLS, killscheck - kills);
+				plr->SetUInt32Value(PLAYER_FIELD_LIFETIME_HONORBALE_KILLS, killscheck - kills);
 				plr->SaveToDB(false);
 				return 0;
 			}
 			else if(check && strncmp(check, "set", 4) == 0 && kills >= 0)
 			{
-				plr->SetUInt32Value(PLAYER_FIELD_LIFETIME_HONORABLE_KILLS, kills);
+				plr->SetUInt32Value(PLAYER_FIELD_LIFETIME_HONORBALE_KILLS, kills);
 				plr->SaveToDB(false);
 				return 0;
 			}

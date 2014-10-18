@@ -1192,7 +1192,7 @@ void WorldSession::FullLogin(Player* plr)
 
 	//datab.Initialize(SMSG_FEATURE_SYSTEM_STATUS);
 	
-	WorldPacket datax(SMSG_FEATURE_SYSTEM_STATUS, 34); // 4.3.4
+	WorldPacket datax(SMSG_FEATURE_SYSTEM_STATUS, 7); // 4.3.4
 
     datax << uint8(2);                                       // status
     datax << uint32(1);                                      // Scrolls of Ressurection?
@@ -1205,6 +1205,7 @@ void WorldSession::FullLogin(Player* plr)
     datax.writeBit(true);
     datax.writeBit(false);
     datax.writeBit(false);                                   // enable(1)/disable(0) voice chat interface in client
+	datax.flushBits();
     datax << uint32(1);
     datax << uint32(0);
     datax << uint32(10);
@@ -1278,24 +1279,22 @@ void WorldSession::FullLogin(Player* plr)
 			float c_tposy = pTrans->GetPositionY() + plr->transporter_info.y;
 			float c_tposz = pTrans->GetPositionZ() + plr->transporter_info.z;
 
-			// do we have this in 15595?
-			/*if(plr->GetMapId() != pTrans->GetMapId())	   // loaded wrong map
+			if(plr->GetMapId() != pTrans->GetMapId())	   // loaded wrong map
 			{
 				plr->SetMapId(pTrans->GetMapId());
 
-				StackWorldPacket<20> dataw(SMSG_NEW_WORLD); // 4.3.4 maybe?
-
-				dataw << pTrans->GetMapId();
+				StackWorldPacket<20> dataw(SMSG_NEW_WORLD); // 15595
 				dataw << c_tposx;
-				dataw << c_tposy;
-				dataw << c_tposz;
 				dataw << plr->GetOrientation();
+				dataw << c_tposz;
+				dataw << pTrans->GetMapId();
+				dataw << c_tposy;
 
 				SendPacket(&dataw);
 
 				// shit is sent in worldport ack.
 				enter_world = false;
-			}*/
+			}
 
 			plr->SetPosition(c_tposx, c_tposy, c_tposz, plr->GetOrientation(), false);
 			plr->m_CurrentTransporter = pTrans;
@@ -1315,11 +1314,12 @@ void WorldSession::FullLogin(Player* plr)
 
 		OutPacket(SMSG_TRIGGER_CINEMATIC, 4, &introid); // 4.3.4
 
-		if(sWorld.m_AdditionalFun)    //cebernic: tells people who 's newbie :D
+		// what the fuck is this anyway?
+		/*if(sWorld.m_AdditionalFun)    //cebernic: tells people who 's newbie :D
 		{
 			const int classtext[] = {0, 5, 6, 8, 9, 11, 0, 4, 3, 7, 0, 10};
 			sWorld.SendLocalizedWorldText(true, "{65}", classtext[(uint32)plr->getClass() ] , plr->GetName() , (plr->IsTeamHorde() ? "{63}" : "{64}"));
-		}
+		}*/
 
 	}
 
@@ -1329,13 +1329,14 @@ void WorldSession::FullLogin(Player* plr)
 	// Login time, will be used for played time calc
 	plr->m_playedtime[2] = uint32(UNIXTIME);
 
+	// disabled
 	//Issue a message telling all guild members that this player has signed on
-	if(plr->IsInGuild())
+	/*if(plr->IsInGuild())
 	{
 		Guild* pGuild = plr->m_playerInfo->guild;
 		if(pGuild)
 		{
-			WorldPacket data(SMSG_GUILD_EVENT, 550); // do we need that much? // shoud work on 4.3.4
+			WorldPacket data(SMSG_GUILD_EVENT, 50); // do we need that much? // shoud work on 4.3.4
 
 			data << uint8(GUILD_EVENT_MOTD);
 			data << uint8(1);
@@ -1349,16 +1350,17 @@ void WorldSession::FullLogin(Player* plr)
 
 			pGuild->LogGuildEvent(GUILD_EVENT_HASCOMEONLINE, 1, plr->GetName());
 		}
-	}
+	}*/
 
 	// !!!! UNCOMMENT THESE ONCE THEY WORK PROPERLY !!!!
+    // don't send this, it's a sandbox, they're not updated
 	// Send online status to people having this char in friendlist
 	//_player->Social_TellFriendsOnline(); // this should work on 4.3.4
 	// send friend list (for ignores)
 	//_player->Social_SendFriendList(7); // this should work on 4.3.4
 
-	//plr->SendDungeonDifficulty(); // not sure 4.3.4
-	//plr->SendRaidDifficulty(); // not sure 4.3.4
+	plr->SendDungeonDifficulty(); // 15595
+	plr->SendRaidDifficulty();    // 15595
 
 	//plr->SendEquipmentSetList(); // not sure 4.3.4
 
@@ -1379,7 +1381,7 @@ void WorldSession::FullLogin(Player* plr)
 	}
 #endif
 
-
+	// disabled useless messages
 //#ifdef WIN32
 	//_player->BroadcastMessage("Server: %sArcEmu %s - %s-Windows-%s", MSG_COLOR_WHITE, BUILD_TAG, CONFIG, ARCH);
 //#else
@@ -1402,13 +1404,15 @@ void WorldSession::FullLogin(Player* plr)
 	// server Message Of The Day
 	SendMOTD();
 
+	// disabled for now
 	//Set current RestState
-	if(plr->m_isResting)
+	//if(plr->m_isResting)
 		// We are resting at an inn , turn on Zzz
-		plr->ApplyPlayerRestState(true);
+		//plr->ApplyPlayerRestState(true);
 
+	// disable everything that is not useful in a sandbox :D
 	//Calculate rest bonus if there is time between lastlogoff and now
-	if(plr->m_timeLogoff > 0 && plr->getLevel() < plr->GetMaxLevel())	// if timelogoff = 0 then it's the first login
+	/*if(plr->m_timeLogoff > 0 && plr->getLevel() < plr->GetMaxLevel())	// if timelogoff = 0 then it's the first login
 	{
 		uint32 currenttime = uint32(UNIXTIME);
 		uint32 timediff = currenttime - plr->m_timeLogoff;
@@ -1419,7 +1423,7 @@ void WorldSession::FullLogin(Player* plr)
 	}
 
 	if(info->m_Group)
-		info->m_Group->Update();
+		info->m_Group->Update();*/
 
 	if(enter_world && !_player->GetMapMgr())
 		plr->AddToWorld();
@@ -1488,7 +1492,8 @@ bool ChatHandler::HandleRenameCommand(const char* args, WorldSession* m_session)
 // We do not do anything with this opcode...
 void WorldSession::HandleLoadScreenOpcode(WorldPacket & recv_data)
 {
-	//printf("LOAD SCREEN OPCODE\n");
+	// empty opcode
+	// printf("LOAD SCREEN OPCODE\n");
 	uint32 mapId;
 
 	recv_data >> mapId;

@@ -247,7 +247,7 @@ void HonorHandler::RecalculateHonorFields(Player* pPlayer)
 	pPlayer->SetUInt32Value(PLAYER_FIELD_KILLS, uint16(pPlayer->m_killsToday) | (pPlayer->m_killsYesterday << 16));
 	//->SetUInt32Value(PLAYER_FIELD_TODAY_CONTRIBUTION, pPlayer->m_honorToday);
 	//pPlayer->SetUInt32Value(PLAYER_FIELD_YESTERDAY_CONTRIBUTION, pPlayer->m_honorYesterday);
-	pPlayer->SetUInt32Value(PLAYER_FIELD_LIFETIME_HONORABLE_KILLS, pPlayer->m_killsLifetime);
+	pPlayer->SetUInt32Value(PLAYER_FIELD_LIFETIME_HONORBALE_KILLS, pPlayer->m_killsLifetime);
 	//pPlayer->SetHonorCurrency(pPlayer->m_honorPoints);
 	//pPlayer->SetArenaCurrency(pPlayer->m_arenaPoints);
 
@@ -269,7 +269,7 @@ bool ChatHandler::HandleAddKillCommand(const char* args, WorldSession* m_session
 	plr->m_killsToday += KillAmount;
 	plr->m_killsLifetime += KillAmount;
 	plr->SetUInt32Value(PLAYER_FIELD_KILLS, uint16(plr->m_killsToday) | (plr->m_killsYesterday << 16));
-	plr->SetUInt32Value(PLAYER_FIELD_LIFETIME_HONORABLE_KILLS, plr->m_killsLifetime);
+	plr->SetUInt32Value(PLAYER_FIELD_LIFETIME_HONORBALE_KILLS, plr->m_killsLifetime);
 
 	return true;
 }

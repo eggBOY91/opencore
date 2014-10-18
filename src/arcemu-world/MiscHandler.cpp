@@ -1420,6 +1420,7 @@ void WorldSession::HandleBarberShopResult(WorldPacket & recv_data)
 
 void WorldSession::HandleGameObjectUse(WorldPacket & recv_data)
 {
+	printf("handle gameobject use\n");
 	CHECK_INWORLD_RETURN
 
 	uint64 guid;
@@ -2568,4 +2569,20 @@ void WorldSession::HandleReadyForAccountDataTimesOpcode(WorldPacket & recv_data)
 {
     // empty opcode
     SendAccountDataTimes(GLOBAL_CACHE_MASK);
+}
+
+void WorldSession::HandleUITimeRequestOpcode(WorldPacket & recv_data) // 4.3.4 (cmangos)
+{
+	// empty opcode
+	WorldPacket data(SMSG_UI_TIME, 4);
+	data << uint32(time(NULL));
+	SendPacket(&data);
+}
+
+void WorldSession::HandleTimeSyncRespOpcode(WorldPacket & recv_data) // 4.3.4 (cmangos)
+{
+	uint32 counter, clientTicks;
+	recv_data >> counter >> clientTicks;
+
+	// do something with this...
 }

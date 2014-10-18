@@ -210,10 +210,9 @@ void Player::SendItemPushResult(bool created, bool recieved, bool sendtoset, boo
 
 }
 
-void Player::SendSetProficiency(uint8 ItemClass, uint32 Proficiency)
+void Player::SendSetProficiency(uint8 ItemClass, uint32 Proficiency) // should work, 4.3.4 15595
 {
-
-	WorldPacket data(SMSG_SET_PROFICIENCY, 40);
+	WorldPacket data(SMSG_SET_PROFICIENCY, 1 + 4); // lol? size was 40 in wotlk, now is 5
 
 	data << uint8(ItemClass);
 	data << uint32(Proficiency);
@@ -565,53 +564,57 @@ void Player::SendLoot(uint64 guid, uint8 loot_type, uint32 mapid)
 
 void Player::SendInitialLogonPackets()
 {
-	// Initial Packets... they seem to be re-sent on port.
-	//m_session->OutPacket(SMSG_SET_REST_START_OBSOLETE, 4, &m_timeLogoff); // Seem to be unused by client
+	//WorldPacket data;
 
-	//StackWorldPacket<32> data(SMSG_BINDPOINTUPDATE); // 15595
-	WorldPacket data;
+	// 15595
+	//data.Initialize(SMSG_BINDPOINTUPDATE,  5 * 4);
+	WorldPacket datao(SMSG_BINDPOINTUPDATE, 5 * 4);
+	datao << float(m_bind_pos_x);
+	datao << float(m_bind_pos_y);
+	datao << float(m_bind_pos_z);
+	datao << uint32(m_bind_mapid);
+	datao << uint32(m_bind_zoneid);
 
-	data.Initialize(SMSG_BINDPOINTUPDATE);
-	data << float(m_bind_pos_x);
-	data << float(m_bind_pos_y);
-	data << float(m_bind_pos_z);
-	data << uint32(m_bind_mapid);
-	data << uint32(m_bind_zoneid);
-
-	m_session->SendPacket(&data);
+	m_session->SendPacket(&datao);
 
 	//Proficiencies
+	// 4.3.4
 	SendSetProficiency(4, armor_proficiency);
 	SendSetProficiency(2, weapon_proficiency);
 
-	//Tutorial Flags
-	data.Initialize(SMSG_TUTORIAL_FLAGS); // updated opcode to 15595, don't know if structure changed
+	// Tutorial Flags
+	// Disabled for now
+	/*data.Initialize(SMSG_TUTORIAL_FLAGS); // updated opcode to 15595, don't know if structure changed
 
 	for(int i = 0; i < 8; i++)
 		data << uint32(m_Tutorials[i]);
 
-	m_session->SendPacket(&data);
+	m_session->SendPacket(&data);*/
 
-	smsg_TalentsInfo(false); // not updated
-	smsg_InitialSpells();
+	// don't send this, it's just a sandbox
+	//smsg_TalentsInfo(false); // not updated (15595)
 
-	// 15595 should work
-	data.Initialize(SMSG_SEND_UNLEARN_SPELLS);  // size: 4
-	data << uint32(0);                            // count, for(count) uint32;
-	GetSession()->SendPacket(&data);
+	smsg_InitialSpells(); // not sure if updated (15595)
+
+	// 15595
+	//data.Initialize(SMSG_SEND_UNLEARN_SPELLS, 4);  // size: 4
+	WorldPacket datat(SMSG_SEND_UNLEARN_SPELLS, 4);
+	datat << uint32(0);                            // count, for(count) uint32;
+	GetSession()->SendPacket(&datat);
 
 	SendInitialActions(); // 15595 not sure
 	smsg_InitialFactions(); // 15595
 
 
 	// 15595 should work
-	data.Initialize(SMSG_LOGIN_SETTIMESPEED); // size: 4 + 4 + 4
+	//data.Initialize(SMSG_LOGIN_SETTIMESPEED, 4 + 4 + 4); // size: 4 + 4 + 4
+	WorldPacket datatt(SMSG_LOGIN_SETTIMESPEED, 4 + 4 + 4);
 
-	data << uint32( Arcemu::Util::MAKE_GAME_TIME() );
-	data << float(0.0166666669777748f);    // Normal Game Speed
-	data << uint32(0);                     // 3.1.2
+	datatt << uint32( Arcemu::Util::MAKE_GAME_TIME() );
+	datatt << float(0.0166666669777748f);    // Normal Game Speed
+	datatt << uint32(0);                     // 3.1.2
 
-	m_session->SendPacket(&data);
+	m_session->SendPacket(&datatt);
 
 	// cebernic for speedhack bug
 	m_lastRunSpeed = 0;
@@ -791,7 +794,9 @@ void Player::SendTotemCreated(uint8 slot, uint64 GUID, uint32 duration, uint32 s
 }
 
 void Player::SendInitialWorldstates(){
-	WorldPacket data( SMSG_INIT_WORLD_STATES, 100 );
+	// packet struct && opcode not updated - DISABLED
+
+	/*WorldPacket data( SMSG_INIT_WORLD_STATES, 100 );
 	m_mapMgr->GetWorldStatesHandler().BuildInitWorldStatesForZone( m_zoneId, m_AreaID, data );
-	m_session->SendPacket( &data );
+	m_session->SendPacket( &data );*/
 }

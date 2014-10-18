@@ -1068,7 +1068,9 @@ void InstanceMgr::CheckForExpiredInstances()
 
 void InstanceMgr::BuildSavedInstancesForPlayer(Player* plr)
 {
-	WorldPacket data(4);
+	// packet struct && opcode not updated
+
+	/*WorldPacket data(4);
 	Instance* in;
 	InstanceMap::iterator itr;
 	InstanceMap* instancemap;
@@ -1109,7 +1111,7 @@ void InstanceMgr::BuildSavedInstancesForPlayer(Player* plr)
 
 	data.SetOpcode(SMSG_UPDATE_INSTANCE_OWNERSHIP);
 	data << uint32(0x00);
-	plr->GetSession()->SendPacket(&data);
+	plr->GetSession()->SendPacket(&data);*/
 }
 
 void InstanceMgr::BuildRaidSavedInstancesForPlayer(Player* plr)

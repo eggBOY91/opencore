@@ -315,7 +315,7 @@ void WorldSession::HandleInspectHonorStatsOpcode(WorldPacket & recv_data)
 	//replace this with PLAYER_FIELD_BATTLEGROUND_RATING? 
 	//data << player->GetUInt32Value(PLAYER_FIELD_TODAY_CONTRIBUTION);
 	//data << player->GetUInt32Value(PLAYER_FIELD_YESTERDAY_CONTRIBUTION);
-	data << player->GetUInt32Value(PLAYER_FIELD_LIFETIME_HONORABLE_KILLS);
+	data << player->GetUInt32Value(PLAYER_FIELD_LIFETIME_HONORBALE_KILLS);
 
 	SendPacket(&data);
 }

@@ -64,53 +64,52 @@ struct TrainerSpell;
 enum MovementFlags
 {
     // Byte 1 (Resets on Movement Key Press)
-    MOVEFLAG_MOVE_STOP                  = 0x00000000,			//verified
-    MOVEFLAG_MOVE_FORWARD				= 0x00000001,			//verified
-    MOVEFLAG_MOVE_BACKWARD				= 0x00000002,			//verified
-    MOVEFLAG_STRAFE_LEFT				= 0x00000004,			//verified
-    MOVEFLAG_STRAFE_RIGHT				= 0x00000008,			//verified
-    MOVEFLAG_TURN_LEFT					= 0x00000010,			//verified
-    MOVEFLAG_TURN_RIGHT					= 0x00000020,			//verified
-    MOVEFLAG_PITCH_DOWN					= 0x00000080,			//trinity
-    MOVEFLAG_PITCH_UP					= 0x00000040,			//trinity
+    MOVEFLAG_MOVE_STOP                  = 0x00000000,			// 15595
+    MOVEFLAG_MOVE_FORWARD				= 0x00000001,			// 15595
+    MOVEFLAG_MOVE_BACKWARD				= 0x00000002,			// 15595
+    MOVEFLAG_STRAFE_LEFT				= 0x00000004,			// 15595
+    MOVEFLAG_STRAFE_RIGHT				= 0x00000008,			// 15595
+    MOVEFLAG_TURN_LEFT					= 0x00000010,			// 15595
+    MOVEFLAG_TURN_RIGHT					= 0x00000020,			// 15595
+    MOVEFLAG_PITCH_DOWN					= 0x00000080,			// 15595
+    MOVEFLAG_PITCH_UP					= 0x00000040,			// 15595
 
+	// 4.3.4 15595
     // Byte 2 (Resets on Situation Change)
-    MOVEFLAG_WALK						= 0x00000100,		//verified
-    MOVEFLAG_TRANSPORT					= 0x200,    // not here: 15595
-    MOVEFLAG_NO_COLLISION				= 0x00000200,        // disable gravity?
-    MOVEFLAG_ROOTED 					= 0x00000400,		//verified
-    MOVEFLAG_REDIRECTED 				= 0x1000,		//Unconfirmed, should be MOVEFLAG_JUMP // is this here in 15595
-    MOVEFLAG_FALLING					= 0x00000800,       //verified
-    MOVEFLAG_FALLING_FAR				= 0x00001000,		//verified
-    MOVEFLAG_FREE_FALLING				= 0x08000000,		//passive rogue spell "free fall"?
+    MOVEFLAG_WALK						= 0x00000100,		// 15595
+    MOVEFLAG_TRANSPORT					= 0x00000200,       // 15595
+    MOVEFLAG_NO_COLLISION				= 0x20000000,       // 15595
+    MOVEFLAG_ROOTED 					= 0x00000400,		// 15595
+	// not here in 15595?
+    //MOVEFLAG_REDIRECTED 				= 0x00001000,		// 15595 - Unconfirmed, should be MOVEFLAG_JUMP // is this here in 15595
+    MOVEFLAG_FALLING					= 0x00000800,       // 15595
+    MOVEFLAG_FALLING_FAR				= 0x00001000,		// 15595
+    MOVEFLAG_FREE_FALLING				= 0x08000000,		// 15595 not sure - passive rogue spell "free fall"?
 
+	// 4.3.4 15595
     // Byte 3 (Set by server. TB = Third Byte. Completely unconfirmed.)
-    MOVEFLAG_TB_PENDING_STOP			= 0x00002000,		// (MOVEFLAG_PENDING_STOP)
-    MOVEFLAG_TB_PENDING_UNSTRAFE		= 0x00004000,		// (MOVEFLAG_PENDING_UNSTRAFE)
-    MOVEFLAG_TB_PENDING_FALL			= 0x40000,		// (MOVEFLAG_PENDING_FALL) // not here 15595?
-    MOVEFLAG_TB_PENDING_FORWARD			= 0x00008000,		// (MOVEFLAG_PENDING_FORWARD)
-    MOVEFLAG_TB_PENDING_BACKWARD		= 0x00010000,		// (MOVEFLAG_PENDING_BACKWARD)
+    MOVEFLAG_TB_PENDING_STOP			= 0x00002000,		// 15595 - (MOVEFLAG_PENDING_STOP)
+    MOVEFLAG_TB_PENDING_UNSTRAFE		= 0x00004000,		// 15595 - (MOVEFLAG_PENDING_UNSTRAFE) (_STRAFESTOP)
+    //MOVEFLAG_TB_PENDING_FALL			= 0x40000,		// (MOVEFLAG_PENDING_FALL) // not here 15595?
+    MOVEFLAG_TB_PENDING_FORWARD			= 0x00008000,		// 15595 - (MOVEFLAG_PENDING_FORWARD)
+    MOVEFLAG_TB_PENDING_BACKWARD		= 0x00010000,		// 15595 - (MOVEFLAG_PENDING_BACKWARD)
 
-    MOVEFLAG_SWIMMING          		    = 0x00100000,		//  verified
-    MOVEFLAG_FLYING_PITCH_UP	        = 0x00200000,		// (half confirmed)(MOVEFLAG_PENDING_STR_RGHT)
-    MOVEFLAG_CAN_FLY					= 0x00800000,		// (half confirmed) gets called when landing (MOVEFLAG_MOVED)
+    MOVEFLAG_SWIMMING          		    = 0x00100000,		// 15595
+    //MOVEFLAG_FLYING_PITCH_UP	        = 0x00000040,		// 15595 - (MOVEFLAG_PENDING_STR_RGHT) // we already have it
+    MOVEFLAG_CAN_FLY					= 0x00800000,		// 15595 - gets called when landing (MOVEFLAG_MOVED)
 
-	MOVEFLAG_FLYING                     = 0x01000000,
-
-	// not really updated these, except SPLINE_ELEVATION
-
+	// 4.3.4 15595
     // Byte 4 (Script Based Flags. Never reset, only turned on or off.)
-    MOVEFLAG_AIR_SUSPENSION	   	 		= 0x1000000,	// confirmed allow body air suspension(good name? lol).
-    MOVEFLAG_AIR_SWIMMING				= 0x2000000,	// confirmed while flying.
-    MOVEFLAG_SPLINE_MOVER				= 0x4000000,	// Unconfirmed
-    MOVEFLAG_SPLINE_ENABLED				= 0x8000000,
-    MOVEFLAG_WATER_WALK					= 0x10000000,
-    MOVEFLAG_FEATHER_FALL				= 0x20000000,	// Does not negate fall damage.
-    MOVEFLAG_LEVITATE					= 0x40000000,
-    MOVEFLAG_LOCAL						= 0x80000000,	// This flag defaults to on. (Assumption)
+    MOVEFLAG_AIR_SUSPENSION	   	 		= 0x1000000,	// confirmed allow body air suspension(good name? lol). wtf flag is this in 15595?
+    MOVEFLAG_AIR_SWIMMING				= 0x01000000,	// MOVEFLAG_AIR_SWIMMING == MOVEFLAG_FLYING (15595)
+    MOVEFLAG_SPLINE_ELEVATION		    = 0x02000000,	// Old MOVEFLAG_SPLINE_MOVER (15595)
+    //MOVEFLAG_SPLINE_ENABLED		    = 0x8000000,    // Gone in 4.3.4 15595
+    MOVEFLAG_WATER_WALK					= 0x04000000,   // 15595
+    MOVEFLAG_FEATHER_FALL				= 0x08000000,	// 15595 (MOVEFLAG_SAFE_FALL) (trinitycore: _FALLING_SLOW)
+    MOVEFLAG_LEVITATE					= 0x10000000,   // 15595 NOT SURE
+    MOVEFLAG_LOCAL						= 0x20000000,	// 15595 NOT SURE
 
-	MOVEFLAG_SPLINE_ELEVATION   = 0x02000000,
-
+	// not 15595
     // Masks
     MOVEFLAG_MOVING_MASK				= 0x03,
     MOVEFLAG_STRAFING_MASK				= 0x0C,
@@ -149,7 +148,8 @@ struct OpcodeHandler
 	void (WorldSession::*handler)(WorldPacket & recvPacket);
 };
 
-enum ObjectUpdateFlags // 15595
+// 15595
+enum ObjectUpdateFlags
 {
     UPDATEFLAG_NONE                  = 0x0000,
     UPDATEFLAG_SELF                  = 0x0001,
@@ -160,10 +160,10 @@ enum ObjectUpdateFlags // 15595
     UPDATEFLAG_LIVING                = 0x0020,
     UPDATEFLAG_HAS_POSITION          = 0x0040,
     UPDATEFLAG_VEHICLE               = 0x0080,
-    UPDATEFLAG_GO_TRANSPORT_POSITION = 0x0100,
+    UPDATEFLAG_POSITION              = 0x0100,           // UPDATEFLAG_HAS_STATIONARY_POSITION (used in Object.cpp for transport data)
     UPDATEFLAG_ROTATION              = 0x0200,
     UPDATEFLAG_UNK3                  = 0x0400,
-    UPDATEFLAG_ANIMKITS              = 0x0800,
+    UPDATEFLAG_HAS_ANIMKITS          = 0x0800,
     UPDATEFLAG_UNK5                  = 0x1000,
     UPDATEFLAG_UNK6                  = 0x2000,
 };
@@ -423,6 +423,10 @@ class SERVER_DECL WorldSession
 		void HandleCompleteCinematic(WorldPacket & recv_data);
 		void HandleInspectOpcode(WorldPacket & recv_data);
 		void HandleGameobjReportUseOpCode(WorldPacket & recv_data);  // CMSG_GAMEOBJ_REPORT_USE
+
+		// 4.3.4 15595
+		void HandleUITimeRequestOpcode(WorldPacket & recv_data); // empty opcode
+		void HandleTimeSyncRespOpcode(WorldPacket & recv_data);
 
 		/// Gm Ticket System in GMTicket.cpp:
 		void HandleGMTicketCreateOpcode(WorldPacket & recvPacket);
