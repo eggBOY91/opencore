@@ -186,6 +186,7 @@ SET( headers
 	DatabaseCleaner.h
 	DayWatcherThread.h
 	DBC/DBCStores.h
+        DBC/DBCFormat.h
 	DeathKnight.h
 	Definitions.h
 	Druid.h

@@ -1,5 +1,0 @@
-Authentication - DONE
-Char enum      - DONE
-Char create    - DONE
-Char delete    - DONE
-Login world
