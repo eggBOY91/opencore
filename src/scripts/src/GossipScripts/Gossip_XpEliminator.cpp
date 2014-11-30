@@ -18,7 +18,7 @@
 
 #include "Setup.h"
 
-// XpEleminatorGossip
+// XpEliminatorGossip
 //  GossipScript subclass for turning on/off Player experience gain
 class XpEliminatorGossip : public Arcemu::Gossip::Script
 {

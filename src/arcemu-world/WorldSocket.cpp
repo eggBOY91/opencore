@@ -29,8 +29,12 @@
    uncomment this if you want
    to log all received/sent packets
    to console
+
+   NOTE TO USER: it is on by default; you
+   might want to disable this if you are 
+   not a developer.
 */
-//#define ECHO_PACKET_LOG_TO_CONSOLE 1
+#define ECHO_PACKET_LOG_TO_CONSOLE 1
 
 #pragma pack(push, 1)
 struct ClientPktHeader

@@ -168,11 +168,13 @@ struct player_item
     _side = -1;
     has_dk = false;
 
-uint32 packetSize;
+uint32 packetSize = 0;
 
 if (result)
     packetSize = result->GetRowCount() * 200;
-    
+else
+    packetSize = 270; // value taken from cmangos
+
 WorldPacket data (SMSG_CHAR_ENUM, packetSize);
 
 ByteBuffer buffer;
@@ -450,10 +452,10 @@ do
 				buffer << uint32(zone);
 } while (result->NextRow()); // end do while
 
-} // end if
-
 data.flushBits();
 data.append(buffer);
+
+} // end if
 
 SendPacket(&data);
 }

@@ -190,8 +190,6 @@ enum Opcodes
     SMSG_GUILD_EVENT                                = 0x0705,	// 15595              NOT SURE
     SMSG_GUILD_COMMAND_RESULT                       = 0x093,	// implemented
     UMSG_UPDATE_GUILD                               = 0x094,	// not used in client
-    CMSG_MESSAGECHAT                                = 0x095,	// implemented
-    SMSG_MESSAGECHAT                                = 0x096,	// implemented
     CMSG_JOIN_CHANNEL                               = 0x097,	// implemented
     CMSG_LEAVE_CHANNEL                              = 0x098,	// implemented
     SMSG_CHANNEL_NOTIFY                             = 0x099,	// implemented
@@ -1278,14 +1276,29 @@ enum Opcodes
     NUM_MSG_TYPES                                   = 0xFFFF,	// max msg number
 
 	// 4.3.4 15595
-	MSG_WOW_CONNECTION                              = 0x4F57,    // raw string for auth
+	MSG_WOW_CONNECTION                              = 0x4F57,    // string to check client-server connection
 
 	CMSG_READY_FOR_ACCOUNT_DATA_TIMES               = 0x2B16,    // implemented
-	CMSG_VIOLENCE_LEVEL                             = 0x7816,    // not implemented
-	CMSG_LOG_DISCONNECT                             = 0x446D,    // not implemented
-	CMSG_LOAD_SCREEN                                = 0x2422,    // what do we do with this
+	CMSG_VIOLENCE_LEVEL                             = 0x7816,    // nothing to implement -- double check this
+	CMSG_LOG_DISCONNECT                             = 0x446D,    // nothing to implement
+	CMSG_LOAD_SCREEN                                = 0x2422,    // nothing to implement
 	CMSG_UI_TIME_REQUEST                            = 0x4605,    // implemented
 	SMSG_UI_TIME                                    = 0x4A14,    // implemented
+
+    CMSG_MESSAGECHAT_SAY                            = 0x1154,
+    CMSG_MESSAGECHAT_YELL                           = 0x3544,
+    CMSG_MESSAGECHAT_CHANNEL                        = 0x1D44,
+    CMSG_MESSAGECHAT_WHISPER                        = 0x0D56,
+    CMSG_MESSAGECHAT_GUILD                          = 0x3956,
+    CMSG_MESSAGECHAT_OFFICER                        = 0x1946,
+    CMSG_MESSAGECHAT_AFK                            = 0x0D44,
+    CMSG_MESSAGECHAT_DND                            = 0x2946,
+    CMSG_MESSAGECHAT_EMOTE                          = 0x1156,
+    CMSG_MESSAGECHAT_PARTY                          = 0x1D46,
+    CMSG_MESSAGECHAT_RAID                           = 0x2D44,
+    CMSG_MESSAGECHAT_RAID_WARNING                   = 0x0944,
+    CMSG_MESSAGECHAT_BATTLEGROUND                   = 0x2156,
+    SMSG_MESSAGECHAT                                = 0x2026
 };
 
 enum FriendsResult

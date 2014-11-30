@@ -185,8 +185,8 @@ SET( headers
 	Creature.h
 	DatabaseCleaner.h
 	DayWatcherThread.h
-	DBC/DBCStores.h
         DBC/DBCFormat.h
+	DBC/DBCStores.h
 	DeathKnight.h
 	Definitions.h
 	Druid.h
@@ -220,6 +220,7 @@ SET( headers
 	MapScriptInterface.h
 	Master.h
 	MiscHandler.h
+        MovementHandler.h
 	NameTables.h
 	NPCHandler.h
 	Object.h

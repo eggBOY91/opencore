@@ -1,4 +1,3 @@
-
 /*
  * ArcScripts for ArcEmu MMORPG Server
  * Copyright (C) 2009 ArcEmu Team <http://www.arcemu.org/>
